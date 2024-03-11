@@ -1,0 +1,65 @@
+body {
+    font-family:'CelloSansLight';
+    margin:0;
+    color:lightyellow;
+    display:flex;
+    flex-direction:column;
+}
+
+.triangle {
+    width:0;
+    height:0;
+    border:solid  .4em;
+    border-color:transparent white transparent transparent;
+}
+
+header {
+    background-color:black;
+    display:flex;
+    width:95%;
+    justify-content: space-between;
+    padding:.8em .8em .4em .8em;
+    position: fixed;
+}
+
+.logotype {
+    letter-spacing: -.08em;
+}
+
+header .right {
+    display:flex;
+    align-items:center;
+    gap:.2em;
+}
+
+.outer-container {
+    background-color:lightgreen;
+    background:url(images/green-floral-background.jpg);
+    background-size:contain;
+    margin:1em;
+    padding:1em;
+    margin-top:3.5em;
+    display:flex;
+    flex-direction:column;
+    gap:1em;
+}
+
+.inner-container {
+    background-color:lightpink;
+    padding:1em;
+    text-align:center;
+    display:flex;
+}
+
+img {
+    width:100%;
+}
+
+h1 {
+    font-weight:normal;
+    margin:0 auto;
+}
+
+p {
+    margin:auto;
+}
