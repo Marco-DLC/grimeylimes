@@ -1,8 +1,8 @@
 body {
     font-family:'CelloSansLight';
     margin:0;
-    color:#FF6565;
-    background-color: #76FF77;
+    color:rgb(71, 0, 0);
+    background-color: #BBFF77;
     display:flex;
     flex-direction:column;
 }
@@ -15,7 +15,7 @@ body {
 }
 
 header {
-    background-color:#FE6695;
+    background-color:#FEB2B8;
     display:flex;
     justify-content: space-between;
     width:100%;
@@ -36,8 +36,8 @@ header .logotype {
 
 header .logotype,
 header .right {
-    color: #FE6695;
-    background-color:#FDC0CD;
+    color: rgb(71, 0, 0);
+    background-color:#ffd7da;
     padding:0 .5em;
 }
 
@@ -50,18 +50,16 @@ header .right {
 }
 
 .outer-container {
-    background-color:#BBFF77;
-    border-radius:1em;
-    margin:1em;
+    background-color:#DEFF77;
     padding:1em;
-    margin-top:4em;
+    margin-top:3em;
     display:flex;
     flex-direction:column;
     gap:.3em;
 }
 
 .inner-container {
-    background-color:#FFFF77;
+    background-color:#fdfdbc;
     padding:1em;
     border-radius:1em 0;
     text-align:center;
@@ -70,7 +68,7 @@ header .right {
 
 img {
     width:100%;
-    border:solid #FF6565 .01em;
+    border:solid #FEB2B8 .01em;
     padding:.1em;
 }
 
