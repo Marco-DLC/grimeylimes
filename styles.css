@@ -75,6 +75,7 @@ header .right {
  .slides {
     width:400%;
     display:flex;
+    cursor:grab;
  }
 
  .slides input{
@@ -112,10 +113,6 @@ header .right {
 
  .manual-btn {
     cursor:pointer;
- }
-
- .manual-btn:hover {
-    background-color:#FD798C;
  }
 
  #radio1:checked ~ .first {
