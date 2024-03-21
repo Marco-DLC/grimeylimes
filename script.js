@@ -44,18 +44,18 @@ manualBtns.forEach((manualBtn) => {
 
 const slider = document.querySelector('.slides');
 
-slider.addEventListener('touchstart', startTouch, {passive: false});
-slider.addEventListener('touchend', endTouch, {passive: false});
+slider.addEventListener('touchstart', startTouch, { passive: false });
+slider.addEventListener('touchend', endTouch, { passive: false });
 
 slider.addEventListener('mousedown', startMouseDown);
 slider.addEventListener('mouseup', startMouseUp);
-slider.addEventListener('wheel', wheelFunc, {passive: false});
+slider.addEventListener('wheel', wheelFunc, { passive: false });
 
 let canSwipe = true;
-function wheelFunc(e){
+function wheelFunc(e) {
     console.log(e.deltaX)
-    if(canSwipe){
-        if(e.deltaX >= 30 && getCheckedRadio().id !==  'radio3') {
+    if (canSwipe) {
+        if (e.deltaX >= 30 && getCheckedRadio().id !== 'radio3') {
             canSwipe = false;
             setSlideTransitionTime('.5s');
             clearInterval(autoSlidesTimer);
@@ -66,7 +66,7 @@ function wheelFunc(e){
             }, 500)
         }
 
-        if(e.deltaX <= -30 && getCheckedRadio().id !==  'radio1') {
+        if (e.deltaX <= -30 && getCheckedRadio().id !== 'radio1') {
             canSwipe = false;
             setSlideTransitionTime('.5s');
             clearInterval(autoSlidesTimer);
@@ -85,34 +85,34 @@ let initialEnd = 0;
 let initialX = 0;
 let endX = 0;
 
-function startMouseDown(e){
+function startMouseDown(e) {
     initialStart = Date.now();
     initialX = e.clientX;
     slider.style.cursor = 'grabbing';
 }
 
-function startMouseUp(e){
+function startMouseUp(e) {
     initialEnd = Date.now();
     endX = e.clientX;
     console.log(initialEnd - initialStart);
     slider.style.cursor = 'grab';
-    if(initialEnd - initialStart < 800){
+    if (initialEnd - initialStart < 800) {
         swipe();
     }
 }
 
-function swipe(){
-    if(endX - initialX < -50 && getCheckedRadio().id !== 'radio3'){
+function swipe() {
+    if (endX - initialX < -50 && getCheckedRadio().id !== 'radio3') {
         setSlideTransitionTime('.5s');
-            clearInterval(autoSlidesTimer);
-            manualBtns.forEach((manualBtn) => manualBtn.style.backgroundColor = 'initial');
-            getCheckedRadio().nextElementSibling.checked = true;
+        clearInterval(autoSlidesTimer);
+        manualBtns.forEach((manualBtn) => manualBtn.style.backgroundColor = 'initial');
+        getCheckedRadio().nextElementSibling.checked = true;
 
-    } else if (endX - initialX > 50 && getCheckedRadio().id !== 'radio1'){
+    } else if (endX - initialX > 50 && getCheckedRadio().id !== 'radio1') {
         setSlideTransitionTime('.5s');
-            clearInterval(autoSlidesTimer);
-            manualBtns.forEach((manualBtn) => manualBtn.style.backgroundColor = 'initial');
-            getCheckedRadio().previousElementSibling.checked = true;
+        clearInterval(autoSlidesTimer);
+        manualBtns.forEach((manualBtn) => manualBtn.style.backgroundColor = 'initial');
+        getCheckedRadio().previousElementSibling.checked = true;
     }
 }
 
@@ -121,10 +121,30 @@ function startTouch(e) {
     initialX = e.touches[0].clientX;
 }
 
-function endTouch(e){
+function endTouch(e) {
     initialEnd = Date.now();
     endX = e.changedTouches[0].clientX;
-    if(initialEnd - initialStart < 800) {
+    if (initialEnd - initialStart < 800) {
         swipe();
     }
+}
+
+const navBtn = document.getElementById('navBtn');
+const navArrow = navBtn.lastElementChild;
+const navMenu = document.getElementById('navMenu');
+
+navBtn.addEventListener('click',() => {
+    toggleNavOpen();
+})
+
+document.body.addEventListener('touchstart', (e) => {
+    if(!navBtn.contains(e.target)){
+        navArrow.classList.remove('open');
+        navMenu.classList.remove('open');
+    }
+})
+
+function toggleNavOpen(){
+    navArrow.classList.toggle('open')
+    navMenu.classList.toggle('open')
 }

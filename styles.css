@@ -1,17 +1,22 @@
 body {
     font-family:'CelloSansLight';
     margin:0;
-    color:rgb(71, 0, 0);
+    color:#470000;
     background-color: #BBFF77;
     display:flex;
     flex-direction:column;
-}
+   }
 
 .triangle {
     width:0;
     height:0;
     border:solid  .4em;
     border-color:transparent #FD798C transparent transparent;
+    transition: .5s;
+}
+
+.triangle.open {
+   transform:rotate(-90deg) translate(-.15em, .2em);
 }
 
 header {
@@ -23,10 +28,16 @@ header {
     position:fixed;
     padding:.4em;
     color:lightyellow;
+    z-index:1;
 }
 
 .logotype {
     letter-spacing: -.08em;
+}
+
+a {
+   text-decoration: none;
+   color:inherit; 
 }
 
 header .logotype {
@@ -43,10 +54,51 @@ header .right {
 
 header .right {
     display:flex;
-    align-items:center;
-    gap:.2em;
     font-size:1.5em;
     border-radius:1em 0 0 1em;
+}
+
+header .right button {
+   background:transparent;
+   border:none;
+   display:flex;
+   font-size:inherit;
+   font-family:inherit;
+   color:inherit;
+   padding: 0;
+   gap:.2em;
+   align-items:center;
+}
+
+#navMenu ul {
+   list-style:none;
+   display:flex;
+   flex-direction: column;
+   margin:0;
+   padding:0;
+   gap:.5em;
+   align-items: flex-end;
+}
+
+#navMenu {
+   position: absolute;
+   right:.27em;
+   top:1.8em;
+   display:flex;
+   flex-direction: column;
+   background-color: #ffd7da;
+   padding:.5em .3em;
+   z-index: 2;
+   pointer-events: none;
+   opacity:0;
+   transform:translateY(-1em);
+   transition:.3s ease-in-out;
+}
+
+#navMenu.open {
+   opacity:1;
+   transform:translateY(0);
+   pointer-events: auto;
 }
 
 .outer-container {
@@ -56,6 +108,7 @@ header .right {
     display:flex;
     flex-direction:column;
     gap:.3em;
+    height:900px;
 }
 
 .inner-container {
@@ -70,6 +123,7 @@ header .right {
     border:solid #FEB2B8 .01em;
     overflow:hidden;
     position:relative;
+    z-index: 0;
 }
 
  .slides {
