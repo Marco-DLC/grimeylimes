@@ -139,12 +139,22 @@ navBtn.addEventListener('click',() => {
 
 document.body.addEventListener('touchstart', (e) => {
     if(!navBtn.contains(e.target)){
-        navArrow.classList.remove('open');
-        navMenu.classList.remove('open');
+        closeNavMenu();
+    }
+})
+
+document.body.addEventListener('mousedown',(e) => {
+    if(!navBtn.contains(e.target)){
+        closeNavMenu();
     }
 })
 
 function toggleNavOpen(){
     navArrow.classList.toggle('open')
     navMenu.classList.toggle('open')
+}
+
+function closeNavMenu(){
+    navArrow.classList.remove('open');
+    navMenu.classList.remove('open');
 }
