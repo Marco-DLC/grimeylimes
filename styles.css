@@ -1,5 +1,10 @@
+@font-face {
+   font-family: CelloSansExtraLight;
+   src: url(./fonts/CelloSans-ExtraLight.ttf);
+}
+
 body {
-    font-family:'CelloSansLight';
+    font-family:CelloSansExtraLight;
     margin:0;
     color:#470000;
     background-color: #BBFF77;
