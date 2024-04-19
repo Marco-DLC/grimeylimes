@@ -149,6 +149,11 @@ header .right button {
    text-align: center;
 }
 
+#portfolioContainer {
+   display:flex;
+   flex-direction: column-reverse;
+}
+
 #slideshow {
    width: 100%;
    border: solid #FEB2B8 .01em;
