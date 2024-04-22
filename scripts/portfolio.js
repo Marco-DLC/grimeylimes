@@ -18,6 +18,21 @@ async function createTimeline() {
             container.appendChild(yearContainer);
         }
     })
+    createArtGrids(art);
+}
+
+function createArtGrids(art) {
+   art.forEach((drawing) => {
+    const yearContainer = document.getElementById(drawing.year);
+    const image = document.createElement('img');
+    image.src = drawing.url || drawing.pages[0];
+    image.oncontextmenu = function(event) {
+        event.preventDefault();
+    };
+    image.draggable = false;
+
+    yearContainer.appendChild(image);
+   })
 }
 
 createTimeline();

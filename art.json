@@ -4,91 +4,91 @@
     "month": "08",
     "day": "12",
     "series": "Lore Olympus",
-    "url": "./images/art/2022-08-12-persephone-hades-kiss.jpg"
+    "url": "../images/art/2022-08-12-persephone-hades-kiss.jpg"
 },
 {
     "year": "2023",
     "month": "05",
     "day": "12",
     "series": "The Legend of Zelda",
-    "url": "./images/art/2023-05-12-totk-link.jpg"
+    "url": "../images/art/2023-05-12-totk-link.jpg"
 },
 {
     "year": "2023",
     "month": "06",
     "day": "18",
     "series": "The Legend of Zelda",
-    "url": "./images/art/2023-06-18-great-fairies.jpg"
+    "url": "../images/art/2023-06-18-great-fairies.jpg"
 },
 {
     "year": "2023",
     "month": "06",
     "day": "21",
     "series": "Nimona",
-    "url": "./images/art/2023-06-21-blackheart-and-goldenloin.jpg"
+    "url": "../images/art/2023-06-21-blackheart-and-goldenloin.jpg"
 },
 {
     "year": "2023",
     "month": "06",
     "day": "23",
     "series": "Spider-Man",
-    "url": "./images/art/2023-06-23-miguel-ohara.jpg"
+    "url": "../images/art/2023-06-23-miguel-ohara.jpg"
 },
 {
     "year": "2023",
     "month": "07",
     "day": "15",
     "series": "Death Note",
-    "url": "./images/art/2023-07-15-light-and-misa.jpg"
+    "url": "../images/art/2023-07-15-light-and-misa.jpg"
 },
 {
     "year": "2024",
     "month": "02",
     "day": "12",
     "series": "Helluva Boss/ Hazbin Hotel",
-    "url": "./images/art/2024-02-12-lucifer.jpg"
+    "url": "../images/art/2024-02-12-lucifer.jpg"
 },
 {
     "year": "2024",
     "month": "02",
     "day": "16",
     "series": "Helluva Boss/ Hazbin Hotel",
-    "url": "./images/art/2024-02-16-alastor.jpg"
+    "url": "../images/art/2024-02-16-alastor.jpg"
 },
 {
     "year": "2024",
     "month": "02",
     "day": "18",
     "series": "Helluva Boss/ Hazbin Hotel",
-    "url": "./images/art/2024-02-18-angeldust-poison.jpg"
+    "url": "../images/art/2024-02-18-angeldust-poison.jpg"
 },
 {
     "year": "2024",
     "month": "02",
     "day": "20",
     "series": "Helluva Boss/ Hazbin Hotel",
-    "url": "./images/art/2024-02-20-charlie-morningstar.jpg"
+    "url": "../images/art/2024-02-20-charlie-morningstar.jpg"
 },
 {
     "year": "2024",
     "month": "02",
     "day": "24",
     "series": "Helluva Boss/ Hazbin Hotel",
-    "url": "./images/art/2024-02-24-huskerdust-cuddle.jpg"
+    "url": "../images/art/2024-02-24-huskerdust-cuddle.jpg"
 },
 {
     "year": "2024",
     "month": "02",
     "day": "26",
     "series": "Helluva Boss/ Hazbin Hotel",
-    "url": "./images/art/2024-02-26-adam-and-lute.jpg"
+    "url": "../images/art/2024-02-26-adam-and-lute.jpg"
 },
 {
     "year": "2024",
     "month": "02",
     "day": "27",
     "series": "Helluva Boss/ Hazbin Hotel",
-    "url": "./images/art/2024-02-27-angeldust-and-husk-human.jpg"
+    "url": "../images/art/2024-02-27-angeldust-and-husk-human.jpg"
 },
 {
     "year": "2024",
@@ -96,15 +96,15 @@
     "day": "08",
     "series": "Helluva Boss/ Hazbin Hotel",
     "pages": [
-        "./images/art/2024-03-08-angeldust-panel-01.jpg",
-        "./images/art/2024-03-08-angeldust-panel-02.jpg",
-        "./images/art/2024-03-08-angeldust-panel-03.jpg",
-        "./images/art/2024-03-08-angeldust-panel-04.jpg",
-        "./images/art/2024-03-08-angeldust-panel-05.jpg",
-        "./images/art/2024-03-08-angeldust-panel-06.jpg",
-        "./images/art/2024-03-08-angeldust-panel-07.jpg",
-        "./images/art/2024-03-08-angeldust-panel-08.jpg",
-        "./images/art/2024-03-08-angeldust-panel-09.jpg"
+        "../images/art/2024-03-08-angeldust-panel-01.jpg",
+        "../images/art/2024-03-08-angeldust-panel-02.jpg",
+        "../images/art/2024-03-08-angeldust-panel-03.jpg",
+        "../images/art/2024-03-08-angeldust-panel-04.jpg",
+        "../images/art/2024-03-08-angeldust-panel-05.jpg",
+        "../images/art/2024-03-08-angeldust-panel-06.jpg",
+        "../images/art/2024-03-08-angeldust-panel-07.jpg",
+        "../images/art/2024-03-08-angeldust-panel-08.jpg",
+        "../images/art/2024-03-08-angeldust-panel-09.jpg"
     ]
 }
 ]
