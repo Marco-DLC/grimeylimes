@@ -1,4 +1,4 @@
-const container = document.querySelector('#portfolioContainer');
+const mainContentContainer = document.querySelector('#portfolioContainer');
 
 async function getArtData() {
     const request = new Request('../art.json');
@@ -9,30 +9,57 @@ async function getArtData() {
 }
 
 async function createTimeline() {
-    let art = await getArtData();
-    art.forEach((drawing) => {
-        if (!document.getElementById(drawing.year)) {
-            const yearContainer = document.createElement('div');
-            yearContainer.id = drawing.year;
-            yearContainer.innerHTML = `<h2>${drawing.year}</h2>`;
-            container.appendChild(yearContainer);
+    let artObjectArray = await getArtData();
+    artObjectArray.forEach((artObj) => {
+        if (!document.getElementById(artObj.year)) {
+            const yearCreatedContainer = document.createElement('div');
+            yearCreatedContainer.id = artObj.year;
+            yearCreatedContainer.innerHTML = `<h2>${artObj.year}</h2>`;
+            mainContentContainer.appendChild(yearCreatedContainer);
         }
     })
-    createArtGrids(art);
+    createArtGrids(artObjectArray);
 }
 
-function createArtGrids(art) {
-   art.forEach((drawing) => {
-    const yearContainer = document.getElementById(drawing.year);
-    const image = document.createElement('img');
-    image.src = drawing.url || drawing.pages[0];
-    image.oncontextmenu = function(event) {
-        event.preventDefault();
-    };
-    image.draggable = false;
+function createArtGrids(artObjectArray) {
+    artObjectArray.forEach((artObj) => {
+        const yearCreatedContainer = document.getElementById(artObj.year);
+        const artImage = document.createElement('img');
+        artImage.src = artObj.url || artObj.pages[0]; // If artObj is a collection of images (comic),
+        // uses the first image of the comic, since the 'pages' property is an array of the comic's urls only existent for artObjs that are comics.
+        artImage.oncontextmenu = function (event) {
+            event.preventDefault();
+        };
+        artImage.draggable = false;
 
-    yearContainer.appendChild(image);
-   })
+        if (artObj.pages) {
+            artImage.classList.add('comic-art-image');
+            yearCreatedContainer.appendChild(createComicContainer(artImage, artObj));
+        } else {
+            yearCreatedContainer.appendChild(artImage);
+        }
+    })
+}
+
+function createComicContainer(artImage, artObj) {
+    const comicContainer = document.createElement('div');
+    comicContainer.classList.add('comic-container');
+
+    const comicIconContainer = document.createElement('div');
+    comicIconContainer.classList.add('comic-icon-container');
+
+    const comicLabel = document.createElement('span');
+    comicLabel.textContent = `Comic: ${artObj.pages.length} pages`;
+    comicIconContainer.appendChild(comicLabel);
+
+    const comicIcon = document.createElement('img');
+    comicIconContainer.appendChild(comicIcon);
+    comicIcon.src = '../images/comic-icon.svg';
+
+    comicContainer.appendChild(artImage);
+    comicContainer.appendChild(comicIconContainer);
+
+    return comicContainer;
 }
 
 createTimeline();
