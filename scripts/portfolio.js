@@ -14,6 +14,7 @@ async function createTimeline() {
         if (!document.getElementById(artObj.year)) {
             const yearCreatedContainer = document.createElement('div');
             yearCreatedContainer.id = artObj.year;
+            yearCreatedContainer.classList.add('year-container');
             yearCreatedContainer.innerHTML = `<h2>${artObj.year}</h2>`;
             mainContentContainer.appendChild(yearCreatedContainer);
         }
@@ -31,6 +32,9 @@ function createArtGrids(artObjectArray) {
             event.preventDefault();
         };
         artImage.draggable = false;
+        artImage.addEventListener('click', () => {
+            openModal(artObj);
+        });
 
         if (artObj.pages) {
             artImage.classList.add('comic-art-image');
@@ -59,7 +63,48 @@ function createComicContainer(artImage, artObj) {
     comicContainer.appendChild(artImage);
     comicContainer.appendChild(comicIconContainer);
 
+    comicContainer.addEventListener('click', () => {
+        openModal(artObj);
+    });
+
     return comicContainer;
 }
+
+function openModal(artObj) {
+    galleryModal.querySelector('img').src = artObj.url || artObj.pages[0];
+    galleryModal.querySelector('#dateCreated').textContent = 
+        `${monthsArray[artObj.month - 1]} ${artObj.day}, ${artObj.year}`;
+    galleryModal.querySelector('#seriesName').textContent = artObj.series;
+
+    galleryModal.style.display = 'block';
+}
+
+function closeModal() {
+    galleryModal.style.display = 'none';
+}
+
+const galleryModal = document.querySelector('.gallery-modal');
+galleryModal.querySelector('.close-modal-btn').addEventListener('click', () => closeModal());
+
+document.body.addEventListener('click', (e) => {
+        if (!galleryModal.contains(e.target)) {
+            closeModal();
+        }
+}, true);
+
+const monthsArray = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+];
 
 createTimeline();
