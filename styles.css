@@ -149,11 +149,73 @@ header .right button {
    text-align: center;
 }
 
-#portfolioContainer {
-   display:flex;
-   flex-direction: column-reverse;
+.inner-container:has(#portfolioFilter) {
+   padding:0 0 1em 0;
+   margin-top:.5em;
 }
 
+#portfolioContainer {
+   display:flex;
+   flex-direction:column-reverse;
+   padding:0 1em;
+}
+
+#portfolioFilter {
+   background-color:#FEB2B8;
+   border-radius:1em 0 0;
+   display:grid;
+   grid-template:1fr 1fr / 1fr 1fr 1fr;
+   font-size:1em;
+   gap:.3em;
+   padding:.3em;
+}
+
+#orderSortBtn {
+   background-color:#ffd7da;
+   color:inherit;
+   font-family:inherit;
+   border:none;
+   border-radius:1em;
+}
+
+.arrow-down,
+.arrow-up {
+   rotate:90deg;
+   display:inline-block;
+   color:#FD798C;
+}
+
+.arrow-up {
+   rotate:-90deg;
+}
+
+select {
+   background-color:#ffd7da;
+   border:none;
+   font-family:inherit;
+   color:inherit;
+   width:75%;
+   justify-self:center;
+}
+
+#mainFilter {
+   width:100%;
+}
+
+option {
+   background-color:#ffd7da;
+   font-size:2em;
+}
+
+optgroup option {
+   font-size:1em;
+}
+
+optgroup {
+   font-size:2em;
+   padding:.5em 0;
+   text-align:center;
+}
 .year-container {
    display:grid;
    grid-template-columns: 1fr 1fr;
@@ -245,9 +307,11 @@ header .right button {
    padding:.3em;
 }
 
-.modal-art-wrapper {
+.modal-art-wrapper#slideshow {
    grid-column: 2 / 5;
    width:100%;
+   margin:0;
+   border:none;
 }
 
 .modal-content {

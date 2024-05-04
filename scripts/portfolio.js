@@ -1,4 +1,5 @@
 const mainContentContainer = document.querySelector('#portfolioContainer');
+let defaultTimelineOrder = true;
 
 async function getArtData() {
     const request = new Request('../art.json');
@@ -20,6 +21,7 @@ async function createTimeline() {
         }
     })
     createArtGrids(artObjectArray);
+    createFilter(artObjectArray);
 }
 
 function createArtGrids(artObjectArray) {
@@ -72,7 +74,7 @@ function createComicContainer(artImage, artObj) {
 
 function openModal(artObj) {
     galleryModal.querySelector('img').src = artObj.url || artObj.pages[0];
-    galleryModal.querySelector('#dateCreated').textContent = 
+    galleryModal.querySelector('#dateCreated').textContent =
         `${monthsArray[artObj.month - 1]} ${artObj.day}, ${artObj.year}`;
     galleryModal.querySelector('#seriesName').textContent = artObj.series;
 
@@ -87,9 +89,9 @@ const galleryModal = document.querySelector('.gallery-modal');
 galleryModal.querySelector('.close-modal-btn').addEventListener('click', () => closeModal());
 
 document.body.addEventListener('click', (e) => {
-        if (!galleryModal.contains(e.target)) {
-            closeModal();
-        }
+    if (!galleryModal.contains(e.target)) {
+        closeModal();
+    }
 }, true);
 
 const monthsArray = [
@@ -107,4 +109,50 @@ const monthsArray = [
     'December'
 ];
 
+function createFilter(artObjectArray) {
+    const filterContainer = document.getElementById('portfolioFilter');
+    const yearFilterSel = document.getElementById('yearFilter');
+    const mainFilterSel = document.getElementById('mainFilter');
+    const seriesOptGroup = document.getElementById('seriesOpts');
+
+    const orderSortBtn = document.getElementById('orderSortBtn');
+    orderSortBtn.addEventListener('click', () => {
+        if (defaultTimelineOrder == true) {
+            orderSortBtn.innerHTML = 'Oldest <span class="arrow-up">&#10148;</span>';
+            mainContentContainer.style.flexDirection = 'column';
+            defaultTimelineOrder = false;
+        } else {
+            orderSortBtn.innerHTML = 'Newest <span class="arrow-down">&#10148;</span>';
+            mainContentContainer.style.flexDirection = 'column-reverse';
+            defaultTimelineOrder = true;
+        }
+    })
+
+    mainContentContainer.childNodes.forEach((child) => {
+        if (child.id !== undefined && child.id !== '') {
+            const option = document.createElement('option');
+            option.value = child.id;
+            option.innerHTML = child.id;
+            yearFilterSel.appendChild(option);
+        }
+    })
+
+    artObjectArray.forEach((artObj) => {
+        let seriesFilterExists = false;
+
+        for (let i = 0; i < seriesOptGroup.children.length; i++) {
+            if (seriesOptGroup.children[i].value === artObj.series) {
+                seriesFilterExists = true;
+            }
+        }
+
+        if (seriesFilterExists == false) {
+            const option = document.createElement('option');
+            option.value = artObj.series;
+            option.innerHTML = artObj.series;
+            seriesOptGroup.appendChild(option);
+        }
+    })
+
+}
 createTimeline();
