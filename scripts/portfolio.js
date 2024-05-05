@@ -130,10 +130,14 @@ function createFilter(artObjectArray) {
 
         if (reverseTimelineOrder == true) {
             orderSortBtn.innerHTML = 'Oldest <span class="arrow-up">&#10148;</span>';
+            mainContentContainer.style.flexDirection = 'column';
             reverseTimelineOrder = false;
+            toggleOrder();
         } else {
             orderSortBtn.innerHTML = 'Newest <span class="arrow-down">&#10148;</span>';
+            mainContentContainer.style.flexDirection = 'column-reverse';
             reverseTimelineOrder = true;
+            toggleOrder();
         }
     })
 
@@ -212,4 +216,21 @@ function hasVisibleChildren(parent) {
     return false;
 }
 
+function toggleOrder() {
+    let artArray = [];
+
+    document.querySelectorAll('.art').forEach((art) => {
+        artArray.push(art);
+    })
+
+    for (let i = 0; i < artArray.length; i++) {
+        if (reverseTimelineOrder == true) {
+        artArray[i].style.order = artArray.length - i;
+        }else if (reverseTimelineOrder == false) {
+            artArray[i].style.order = i;
+        }
+    }
+}
+
 createTimeline();
+toggleOrder();
