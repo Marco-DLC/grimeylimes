@@ -40,7 +40,7 @@
                 <label for="mainFilter">Filter:</label>
 
                 <button id="orderSortBtn">Newest <span class="arrow-down">&#10148;</span></button>
-            
+
                 <select id="yearFilter">
                     <option value="">All</option>
                     <hr>
@@ -59,18 +59,22 @@
                 </select>
             </div>
             <div class="gallery-modal">
+                <div class="scroll-indicator">This is a comic!<br>
+                    Scroll down on the image to read on. </div>
                 <button class="close-modal-btn">&times;</button>
                 <div class="modal-content">
-                    <div class="modal-art-wrapper" id="slideshow">
-                        <img src="../images/art/2022-08-12-persephone-hades-kiss.jpg">
+                    <div class="modal-art-wrapper">
+                        <div class="slides"></div>
                     </div>
-                    <button class="previous-art-btn">&#10094;</button>
-                    <div class="modal-art-info">
-                        <span>Created on </span> <span id="dateCreated"></span>
-                        <br>
-                        <span>Series: </span> <span id="seriesName"></span>
+                    <div class="bottom">
+                        <button class="previous-art-btn">&#10094;</button>
+                        <div class="modal-art-info">
+                            <span>Created on </span> <span id="dateCreated"></span>
+                            <br>
+                            <span>Series: </span> <span id="seriesName"></span>
+                        </div>
+                        <button class="next-art-btn">&#10095;</button>
                     </div>
-                    <button class="next-art-btn">&#10095;</button>
                 </div>
             </div>
             <div id="portfolioContainer">
