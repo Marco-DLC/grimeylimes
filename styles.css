@@ -12,6 +12,10 @@ body {
    flex-direction: column;
 }
 
+body.no-scroll {
+   overflow:hidden;
+}
+
 .triangle {
    width: 0;
    height: 0;
@@ -320,7 +324,7 @@ optgroup {
 }
 
 .modal-art-wrapper.comic-modal {
-   overflow-y:scroll;
+   overflow:hidden;
    width:auto;
    height:75%;
 }
@@ -329,12 +333,32 @@ optgroup {
    width:auto;
    display:flex;
    flex-direction:column;
+   transition:.5s;
+   animation:comic-scroll-peak .8s alternate 4;
+   animation-delay:.8s;
+}
+
+@keyframes comic-scroll-peak {
+   0%{
+      transform:translateY(0);
+   }
+   40%{
+      transform:translateY(0);
+   }
+   100% {
+      transform:translateY(-1em);
+   }
+}
+
+.portfolio .slides img {
+   position:relative;
 }
 
 .scroll-indicator {
    background-color: #ffd7dae7;
    display:none;
    position: absolute;
+   z-index:3;
    left: 25%;
    top:40%;
    border-radius: 1em;

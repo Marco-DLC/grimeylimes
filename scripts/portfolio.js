@@ -10,8 +10,14 @@ const orderSortBtn = document.getElementById('orderSortBtn');
 
 const galleryModal = document.querySelector('.gallery-modal');
 const modalArtWrapper = document.querySelector('.modal-art-wrapper');
+
+let modalArtSlider;
 const scrollIndicator = document.querySelector('.scroll-indicator');
 let indicatorFlashTimer;
+
+let comicModalPageIds = [];
+let currentComicPageId;
+let currentComicLength;
 
 const monthsArray = [
     'January',
@@ -113,6 +119,10 @@ function openModal(artObj) {
     if (artObj.url) {
         const modalImage = document.createElement('img');
         modalImage.src = artObj.url;
+        modalImage.oncontextmenu = function (event) {
+            event.preventDefault();
+        };
+        modalImage.draggable = false;
         modalArtWrapper.appendChild(modalImage);
     } else { openComicModal(artObj); }
 
@@ -126,15 +136,24 @@ function openModal(artObj) {
 function openComicModal(artObj) {
     modalArtWrapper.classList.add('comic-modal');
     modalArtWrapper.innerHTML = '<div class="slides"></div>';
-    const modalArtSlider = document.querySelector('.slides');
+    modalArtSlider = document.querySelector('.slides');
     if (indicatorFlashTimer) {
         clearTimeout(indicatorFlashTimer);
     }
+    comicModalPageIds = [];
+    currentComicPageId = 0;
+    currentComicLength = artObj.pages.length;
 
     artObj.pages.forEach((pageUrl) => {
         const pageImage = document.createElement('img');
         pageImage.src = pageUrl;
         pageImage.style.height = `${1 / artObj.pages.length * 100}%`;
+        pageImage.id = artObj.pages.indexOf(pageUrl);
+        comicModalPageIds.push(pageImage.id);
+        pageImage.oncontextmenu = function (event) {
+            event.preventDefault();
+        };
+        pageImage.draggable = false;
         modalArtSlider.appendChild(pageImage);
     })
 
@@ -142,9 +161,17 @@ function openComicModal(artObj) {
 
     scrollIndicator.style.display = 'block';
 
-    indicatorFlashTimer = setTimeout(function(){
+    indicatorFlashTimer = setTimeout(function () {
         scrollIndicator.style.display = 'none';
     }, 2800)
+
+    modalArtSlider.addEventListener('touchstart', startTouch, { passive: false });
+    modalArtSlider.addEventListener('touchend', endTouch, { passive: false });
+
+    modalArtSlider.addEventListener('mousedown', startMouseDown);
+    modalArtSlider.addEventListener('mouseup', startMouseUp);
+    modalArtSlider.addEventListener('wheel', wheelFunc, { passive: false });
+
 }
 
 function closeModal() {
@@ -162,6 +189,13 @@ document.body.addEventListener('click', (e) => {
         closeModal();
     }
 }, true);
+
+galleryModal.addEventListener('wheel', (e) => {
+    e.preventDefault();
+}, false);
+galleryModal.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+}, false);
 
 function createFilter(artObjectArray) {
     let yearIDs = [];
@@ -272,5 +306,77 @@ function toggleOrder() {
         }
     }
 }
+
+let canSwipe = true;
+
+let wheelDeltaY;
+
+let initialStart = 0;
+let initialEnd = 0;
+
+let initialY = 0;
+let endY = 0;
+
+function wheelFunc(e) {
+    console.log(e.deltaY);
+    wheelDeltaY = e.deltaY;
+    swipe();
+    wheelDeltaY = 0;
+}
+
+function startMouseDown(e) {
+    initialStart = Date.now();
+    initialY = e.clientY;
+    modalArtSlider.style.cursor = 'grabbing';
+}
+
+function startMouseUp(e) {
+    initialEnd = Date.now();
+    endY = e.clientY;
+    modalArtSlider.style.cursor = 'grab';
+    if (initialEnd - initialStart < 800) {
+        console.log('swipe strength:' + (endY - initialY));
+        swipe();
+    }
+}
+
+function startTouch(e) {
+    initialStart = Date.now();
+    initialY = e.touches[0].clientY;
+}
+
+function endTouch(e) {
+    initialEnd = Date.now();
+    endY = e.changedTouches[0].clientY;
+    if (initialEnd - initialStart < 800) {
+        swipe();
+    }
+}
+
+
+function swipe() {
+    if (!canSwipe) return;
+    canSwipe = false;
+    modalArtSlider.style.animation = 'none';
+    void modalArtSlider.offsetHeight;
+
+    if ((endY - initialY < -100 || wheelDeltaY >= 30) &&
+        currentComicPageId !== (currentComicLength - 1)) {
+
+        currentComicPageId++;
+    } else if ((endY - initialY > 100 || wheelDeltaY <= -30) && currentComicPageId !== 0) {
+
+        currentComicPageId--;
+    }
+
+    setTimeout(() => {
+    modalArtSlider.style.transform = `translateY(-${(currentComicPageId / currentComicLength) * 100}%)`;
+    }, 0);
+
+    setTimeout(() => {
+        canSwipe = true;
+    }, 500)
+}
+
 
 createTimeline();
