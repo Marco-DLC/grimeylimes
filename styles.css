@@ -318,6 +318,14 @@ optgroup {
    padding: .5em;
 }
 
+.close-modal-btn:hover {
+   background-color:#DEFF77;
+}
+
+.close-modal-btn:active {
+   background-color:#9bd85d;
+}
+
 .modal-art-wrapper {
    width: 80%;
    margin-top: .5em;
@@ -380,6 +388,7 @@ optgroup {
    width: 100%;
    height:100%;
    display: flex;
+   position:relative;
    flex-direction: column;
    align-items: center;
    gap: 1em;
@@ -397,6 +406,30 @@ optgroup {
    border: none;
    border-radius: 50% .3em;
    width: 2.5em;
+   font-size:1em;
+}
+
+.previous-art-btn:hover,
+.next-art-btn:hover {
+   background-color: #ffd7da;
+}
+
+.previous-art-btn:active,
+.next-art-btn:active {
+   background-color:#c4606f;
+}
+
+.cycle-back-btn {
+   background-color: #BBFF77;
+   font-size:1.5em;
+}
+
+.cycle-back-btn:hover {
+   background-color:#DEFF77;
+}
+
+.cycle-back-btn:active {
+   background-color:#9bd85d;
 }
 
 .modal-art-info {

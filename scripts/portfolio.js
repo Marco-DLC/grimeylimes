@@ -7,9 +7,13 @@ const mainFilterSel = document.getElementById('mainFilter');
 const seriesOptGroup = document.getElementById('seriesOpts');
 
 const orderSortBtn = document.getElementById('orderSortBtn');
+let filteredArt = [];
+let currentlySelectedArt;
 
 const galleryModal = document.querySelector('.gallery-modal');
 const modalArtWrapper = document.querySelector('.modal-art-wrapper');
+const previousModalBtn = document.querySelector('.previous-art-btn');
+const nextModalBtn = document.querySelector('.next-art-btn');
 
 let modalArtSlider;
 const scrollIndicator = document.querySelector('.scroll-indicator');
@@ -63,7 +67,6 @@ function createArtGrids(artObjectArray) {
         const yearCreatedContainer = document.getElementById(artObj.year);
         const artImage = document.createElement('img');
         artImage.value = artObj.series;
-        artImage.classList.add('art', 'drawing');
         artImage.src = artObj.url || artObj.pages[0]; // If artObj is a collection of images (comic),
         // uses the first image of the comic, since the 'pages' property is an array of the comic's urls only existent for artObjs that are comics.
         artImage.oncontextmenu = function (event) {
@@ -71,6 +74,8 @@ function createArtGrids(artObjectArray) {
         };
         artImage.draggable = false;
         artImage.addEventListener('click', () => {
+            currentlySelectedArt = artImage;
+            styleModalBtns();
             openModal(artObj);
         });
 
@@ -78,6 +83,8 @@ function createArtGrids(artObjectArray) {
             artImage.classList.add('comic-art-image');
             yearCreatedContainer.appendChild(createComicContainer(artImage, artObj));
         } else {
+            artImage.classList.add('art', 'drawing');
+            filteredArt.push(artImage);
             yearCreatedContainer.appendChild(artImage);
         }
     })
@@ -88,6 +95,7 @@ function createArtGrids(artObjectArray) {
 function createComicContainer(artImage, artObj) {
     const comicContainer = document.createElement('div');
     comicContainer.classList.add('comic-container', 'art', 'comic');
+    filteredArt.push(comicContainer);
     comicContainer.value = artObj.series;
 
     const comicIconContainer = document.createElement('div');
@@ -101,15 +109,30 @@ function createComicContainer(artImage, artObj) {
     comicIconContainer.appendChild(comicIcon);
     comicIcon.src = '../images/comic-icon.svg';
 
-    artImage.classList.remove('art');
     comicContainer.appendChild(artImage);
     comicContainer.appendChild(comicIconContainer);
 
     comicContainer.addEventListener('click', () => {
+        currentlySelectedArt = comicContainer;
+        styleModalBtns();
         openModal(artObj);
     });
 
     return comicContainer;
+}
+
+function styleModalBtns() {
+    previousModalBtn.classList.remove('cycle-back-btn');
+    nextModalBtn.classList.remove('cycle-back-btn');
+    previousModalBtn.innerHTML = '&#10094';
+    nextModalBtn.innerHTML = '&#10095';
+    if (currentlySelectedArt === filteredArt[0]) {
+        previousModalBtn.classList.add('cycle-back-btn');
+        previousModalBtn.innerHTML = '&#171';
+    } else if (currentlySelectedArt === filteredArt[filteredArt.length - 1]) {
+        nextModalBtn.classList.add('cycle-back-btn');
+        nextModalBtn.innerHTML = '&#187';
+    }
 }
 
 function openModal(artObj) {
@@ -174,12 +197,42 @@ function openComicModal(artObj) {
 
 }
 
+nextModalBtn.addEventListener('click', () => { selectAdjacentArt('next') });
+previousModalBtn.addEventListener('click', () => { selectAdjacentArt('previous') });
+
+function selectAdjacentArt(direction) {
+    if (direction === 'next') {
+        if (currentlySelectedArt === filteredArt[filteredArt.length - 1]) {
+            filteredArt[0].click();
+        } else {
+            filteredArt[filteredArt.indexOf(currentlySelectedArt) + 1].click();
+        }
+
+    } else if (direction === 'previous') {
+        if (currentlySelectedArt === filteredArt[0]) {
+            filteredArt[filteredArt.length - 1].click();
+        } else {
+            filteredArt[filteredArt.indexOf(currentlySelectedArt) - 1].click();
+        }
+    }
+}
+
+function orderFilteredArt() {
+    filteredArt = filteredArt.sort((a, b) => {
+        const orderA = parseInt(a.style.order, 10);
+        const orderB = parseInt(b.style.order, 10);
+
+        return orderA - orderB;
+    })
+}
+
 function closeModal() {
     galleryModal.style.display = 'none';
     if (indicatorFlashTimer) {
         clearTimeout(indicatorFlashTimer);
     }
     scrollIndicator.style.display = 'none';
+    currentlySelectedArt = '';
 }
 
 galleryModal.querySelector('.close-modal-btn').addEventListener('click', () => closeModal());
@@ -258,6 +311,7 @@ function createFilter(artObjectArray) {
 }
 
 function filterArt(allYears) {
+    filteredArt = [];
     document.querySelectorAll('.art').forEach((art) => {
         art.style.display = 'none';
         if (mainFilterSel.value === art.value ||
@@ -265,7 +319,13 @@ function filterArt(allYears) {
             mainFilterSel.value === '') {
             art.style.display = 'block';
         }
+        if (passesFilter(art)) {
+            filteredArt.push(art);
+        }
     })
+
+    orderFilteredArt();
+
     allYears.forEach((year) => {
         const yearCreatedContainer = document.getElementById(year);
         if (!hasVisibleChildren(yearCreatedContainer) || yearFilterSel.value !== year) {
@@ -304,6 +364,16 @@ function toggleOrder() {
             artArray[i].style.order = i;
             mainContentContainer.style.flexDirection = 'column';
         }
+    }
+
+    orderFilteredArt();
+}
+
+function passesFilter(art) {
+    const yearCreatedContainer = document.getElementById(yearFilterSel.value);
+    if (art.style.display === 'block' &&
+        (yearFilterSel.value === '' || yearCreatedContainer.contains(art))) {
+        return true;
     }
 }
 
@@ -370,7 +440,7 @@ function swipe() {
     }
 
     setTimeout(() => {
-    modalArtSlider.style.transform = `translateY(-${(currentComicPageId / currentComicLength) * 100}%)`;
+        modalArtSlider.style.transform = `translateY(-${(currentComicPageId / currentComicLength) * 100}%)`;
     }, 0);
 
     setTimeout(() => {
