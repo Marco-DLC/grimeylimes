@@ -14,6 +14,8 @@ const galleryModal = document.querySelector('.gallery-modal');
 const modalArtWrapper = document.querySelector('.modal-art-wrapper');
 const previousModalBtn = document.querySelector('.previous-art-btn');
 const nextModalBtn = document.querySelector('.next-art-btn');
+let switchingModalL;
+let switchingModalR;
 
 let modalArtSlider;
 const scrollIndicator = document.querySelector('.scroll-indicator');
@@ -22,6 +24,8 @@ let indicatorFlashTimer;
 let comicModalPageIds = [];
 let currentComicPageId;
 let currentComicLength;
+
+let initialModalOpening = true;
 
 const monthsArray = [
     'January',
@@ -147,6 +151,22 @@ function openModal(artObj) {
         };
         modalImage.draggable = false;
         modalArtWrapper.appendChild(modalImage);
+
+        if (initialModalOpening) {
+            modalArtWrapper.classList.add('initial-modal');
+            initialModalOpening = false;
+            const cycleIndicator = scrollIndicator.cloneNode(true);
+            cycleIndicator.textContent = 'Scroll/swipe/drag left or right to browse';
+            cycleIndicator.style.display = "block";
+            galleryModal.appendChild(cycleIndicator);
+            
+            setTimeout(() => {
+                modalArtWrapper.classList.remove('initial-modal');
+            }, 4000)
+            setTimeout(() => {
+                galleryModal.removeChild(cycleIndicator);
+            }, 2800)
+        }
     } else { openComicModal(artObj); }
 
     galleryModal.querySelector('#dateCreated').textContent =
@@ -154,6 +174,20 @@ function openModal(artObj) {
     galleryModal.querySelector('#seriesName').textContent = artObj.series;
 
     galleryModal.style.display = 'block';
+
+    if (switchingModalR) {
+        modalArtWrapper.classList.add('enter-right');
+    } else if (switchingModalL) {
+        modalArtWrapper.classList.add('enter-left');
+    }
+
+    setTimeout(() => {
+        modalArtWrapper.classList.remove('enter-left', 'enter-right');
+    }, 200)
+
+    switchingModalL = false;
+    switchingModalR = false;
+
 }
 
 function openComicModal(artObj) {
@@ -188,32 +222,57 @@ function openComicModal(artObj) {
         scrollIndicator.style.display = 'none';
     }, 2800)
 
-    modalArtSlider.addEventListener('touchstart', startTouch, { passive: false });
-    modalArtSlider.addEventListener('touchend', endTouch, { passive: false });
-
-    modalArtSlider.addEventListener('mousedown', startMouseDown);
-    modalArtSlider.addEventListener('mouseup', startMouseUp);
-    modalArtSlider.addEventListener('wheel', wheelFunc, { passive: false });
-
 }
 
 nextModalBtn.addEventListener('click', () => { selectAdjacentArt('next') });
 previousModalBtn.addEventListener('click', () => { selectAdjacentArt('previous') });
 
+modalArtWrapper.addEventListener('touchstart', startTouch, { passive: false });
+modalArtWrapper.addEventListener('touchend', endTouch, { passive: false });
+
+modalArtWrapper.addEventListener('mousedown', startMouseDown);
+modalArtWrapper.addEventListener('mouseup', startMouseUp);
+modalArtWrapper.addEventListener('wheel', wheelFunc, { passive: false });
+
+let canSwipeHor = true;
+
 function selectAdjacentArt(direction) {
-    if (direction === 'next') {
-        if (currentlySelectedArt === filteredArt[filteredArt.length - 1]) {
-            filteredArt[0].click();
-        } else {
-            filteredArt[filteredArt.indexOf(currentlySelectedArt) + 1].click();
+    if (canSwipeHor) {
+        canSwipeHor = false;
+        void modalArtWrapper.offsetWidth;
+
+        if (direction === 'next') {
+            modalArtWrapper.classList.add('enter-left', 'exit');
+            switchingModalR = true;
+
+            setTimeout(() => {
+                modalArtWrapper.classList.remove('enter-left', 'exit');
+
+                if (currentlySelectedArt === filteredArt[filteredArt.length - 1]) {
+                    filteredArt[0].click();
+                } else {
+                    filteredArt[filteredArt.indexOf(currentlySelectedArt) + 1].click();
+                }
+            }, 200)
+
+        } else if (direction === 'previous') {
+            modalArtWrapper.classList.add('enter-right', 'exit');
+            switchingModalL = true;
+
+            setTimeout(() => {
+                modalArtWrapper.classList.remove('enter-right', 'exit');
+
+                if (currentlySelectedArt === filteredArt[0]) {
+                    filteredArt[filteredArt.length - 1].click();
+                } else {
+                    filteredArt[filteredArt.indexOf(currentlySelectedArt) - 1].click();
+                }
+            }, 200)
         }
 
-    } else if (direction === 'previous') {
-        if (currentlySelectedArt === filteredArt[0]) {
-            filteredArt[filteredArt.length - 1].click();
-        } else {
-            filteredArt[filteredArt.indexOf(currentlySelectedArt) - 1].click();
-        }
+        setTimeout(() => {
+            canSwipeHor = true;
+        }, 400)
     }
 }
 
@@ -377,7 +436,7 @@ function passesFilter(art) {
     }
 }
 
-let canSwipe = true;
+let canSwipeVert = true;
 
 let wheelDeltaY;
 
@@ -387,65 +446,93 @@ let initialEnd = 0;
 let initialY = 0;
 let endY = 0;
 
+let initialX = 0;
+let endX = 0;
+
 function wheelFunc(e) {
-    console.log(e.deltaY);
-    wheelDeltaY = e.deltaY;
-    swipe();
-    wheelDeltaY = 0;
+    if (e.deltaY !== 0) {
+        wheelDeltaY = e.deltaY;
+        swipe();
+        wheelDeltaY = 0;
+    } else if (e.deltaX >= 30) {
+        nextModalBtn.click();
+    } else if (e.deltaX <= -30) {
+        previousModalBtn.click();
+    }
 }
 
 function startMouseDown(e) {
     initialStart = Date.now();
     initialY = e.clientY;
-    modalArtSlider.style.cursor = 'grabbing';
+    initialX = e.clientX;
+    modalArtWrapper.style.cursor = 'grabbing';
 }
 
 function startMouseUp(e) {
     initialEnd = Date.now();
     endY = e.clientY;
-    modalArtSlider.style.cursor = 'grab';
+    endX = e.clientX;
+    modalArtWrapper.style.cursor = 'grab';
+
     if (initialEnd - initialStart < 800) {
-        console.log('swipe strength:' + (endY - initialY));
-        swipe();
+        if (Math.abs(endY - initialY) > 60) {
+            swipe();
+        } else if (endX - initialX > 60) {
+            previousModalBtn.click();
+        } else if (endX - initialX < -60) {
+            nextModalBtn.click();
+        }
     }
 }
 
 function startTouch(e) {
     initialStart = Date.now();
     initialY = e.touches[0].clientY;
+    initialX = e.touches[0].clientX;
 }
 
 function endTouch(e) {
     initialEnd = Date.now();
     endY = e.changedTouches[0].clientY;
+    endX = e.changedTouches[0].clientX;
+    console.log(endX - initialX);
     if (initialEnd - initialStart < 800) {
-        swipe();
+        if (Math.abs(endY - initialY) > 20) {
+            swipe();
+        } else if (endX - initialX > 20) {
+            previousModalBtn.click();
+        } else if (endX - initialX < -20) {
+            nextModalBtn.click();
+        }
     }
 }
 
 
 function swipe() {
-    if (!canSwipe) return;
-    canSwipe = false;
-    modalArtSlider.style.animation = 'none';
-    void modalArtSlider.offsetHeight;
+    if (!canSwipeVert) return;
 
-    if ((endY - initialY < -100 || wheelDeltaY >= 30) &&
-        currentComicPageId !== (currentComicLength - 1)) {
+    if (modalArtSlider) {
+        canSwipeVert = false;
+        modalArtSlider.style.animation = 'none';
+        void modalArtSlider.offsetHeight;
 
-        currentComicPageId++;
-    } else if ((endY - initialY > 100 || wheelDeltaY <= -30) && currentComicPageId !== 0) {
+        if ((endY - initialY < -20 || wheelDeltaY >= 30) &&
+            currentComicPageId !== (currentComicLength - 1)) {
 
-        currentComicPageId--;
+            currentComicPageId++;
+        } else if ((endY - initialY > 20 || wheelDeltaY <= -30) && currentComicPageId !== 0) {
+
+            currentComicPageId--;
+        }
+
+        setTimeout(() => {
+            modalArtSlider.style.transform = `translateY(-${(currentComicPageId / currentComicLength) * 100}%)`;
+        }, 0);
+
+        setTimeout(() => {
+            canSwipeVert = true;
+        }, 500)
     }
-
-    setTimeout(() => {
-        modalArtSlider.style.transform = `translateY(-${(currentComicPageId / currentComicLength) * 100}%)`;
-    }, 0);
-
-    setTimeout(() => {
-        canSwipe = true;
-    }, 500)
 }
 
 

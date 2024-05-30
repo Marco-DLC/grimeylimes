@@ -331,6 +331,65 @@ optgroup {
    margin-top: .5em;
 }
 
+.enter-left {
+   animation:translate-left .2s;
+}
+
+.enter-right {
+   animation:translate-right .2s;
+}
+
+.exit {
+   animation-direction: reverse;
+}
+
+@keyframes translate-left {
+   from {
+      transform:translateX(-120%);
+   }
+   to {
+      transform:translateX(0);
+   }
+}
+
+@keyframes translate-right {
+   from {
+      transform:translateX(120%);
+   }
+   to {
+      transform:translateX(0);
+   }
+}
+
+.initial-modal {
+   animation:initial-modal-scroll-peak 3.2s 1;
+   animation-delay:.8s;
+}
+
+@keyframes initial-modal-scroll-peak {
+   0%{
+      transform:translateX(0);
+   }
+   10%{
+      transform:translateX(0);
+   }
+   30% {
+      transform:translateX(-1em);
+   }
+   50% {
+      transform:translateX(0);
+   }
+   60% {
+      transform:translateX(0);
+   }
+   80% {
+      transform:translateX(1em);
+   }
+   100% {
+      transform:translateX(0);
+   }
+}
+
 .modal-art-wrapper.comic-modal {
    overflow:hidden;
    width:auto;
