@@ -153,6 +153,21 @@ header .right button {
    text-align: center;
 }
 
+.commissions .content {
+   padding:.3em 0;
+   display:flex;
+   flex-direction: column;
+   gap:.3em;
+}
+
+.content p {
+   padding:1em;
+}
+
+.content hr {
+   height:.05em;
+}
+
 .inner-container:has(#portfolioFilter) {
    padding: 0 0 1em 0;
    margin-top: .5em;
@@ -232,6 +247,10 @@ optgroup {
 }
 
 .portfolio img {
+   width: 100%;
+}
+
+.commissions img {
    width: 100%;
 }
 
