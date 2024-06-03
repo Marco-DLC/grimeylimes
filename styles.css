@@ -160,8 +160,46 @@ header .right button {
    gap:.3em;
 }
 
-.content p {
+.commissions .content p {
    padding:1em;
+}
+
+.social .content {
+   display:flex;
+   flex-direction:column;
+   justify-content:center;
+   align-items:center;
+   gap:1em;
+}
+
+.social .content div { 
+   display:flex;
+   flex-direction:column;
+   border:solid #BBFF77 .1em;
+   border-radius:1em;
+   padding:.5em;
+   background-color:#fafaa6;
+}
+
+.social .content div:hover {
+   background-color: #BBFF77;
+}
+
+.social .content div:active {
+   background-color:#9bd85d;
+}
+
+.social .content a {
+   text-decoration: none;
+   color:#470000;
+}
+
+.social img {
+   height:3em;
+}
+
+.social .outer-container {
+   height:100;
 }
 
 .content hr {
