@@ -11,6 +11,7 @@ let filteredArt = [];
 let currentlySelectedArt;
 
 const galleryModal = document.querySelector('.gallery-modal');
+const modalContent = document.querySelector('.modal-content');
 const modalArtWrapper = document.querySelector('.modal-art-wrapper');
 const previousModalBtn = document.querySelector('.previous-art-btn');
 const nextModalBtn = document.querySelector('.next-art-btn');
@@ -141,6 +142,7 @@ function styleModalBtns() {
 
 function openModal(artObj) {
     modalArtWrapper.classList.remove('comic-modal');
+    modalContent.classList.remove('comic-modal');
     modalArtWrapper.innerHTML = '';
 
     if (artObj.url) {
@@ -173,7 +175,7 @@ function openModal(artObj) {
         `${monthsArray[artObj.month - 1]} ${artObj.day}, ${artObj.year}`;
     galleryModal.querySelector('#seriesName').textContent = artObj.series;
 
-    galleryModal.style.display = 'block';
+    galleryModal.style.display = 'flex';
 
     if (switchingModalR) {
         modalArtWrapper.classList.add('enter-right');
@@ -192,6 +194,7 @@ function openModal(artObj) {
 
 function openComicModal(artObj) {
     modalArtWrapper.classList.add('comic-modal');
+    modalContent.classList.add('comic-modal');
     modalArtWrapper.innerHTML = '<div class="slides"></div>';
     modalArtSlider = document.querySelector('.slides');
     if (indicatorFlashTimer) {

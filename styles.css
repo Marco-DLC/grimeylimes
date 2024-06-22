@@ -142,8 +142,8 @@ header .right button {
    margin-top: 3em;
    display: flex;
    flex-direction: column;
+   align-items:center;
    gap: .3em;
-
 }
 
 .inner-container {
@@ -151,6 +151,9 @@ header .right button {
    padding: 1em;
    border-radius: 1em 0;
    text-align: center;
+   max-width: 400px;
+   width:100%;
+   box-sizing:border-box;
 }
 
 .commissions .content {
@@ -352,27 +355,33 @@ optgroup {
 
 .gallery-modal {
    position: fixed;
-   top: 3.5em;
+   top: 15%;
    left: 0;
    width: 100%;
-   height:75%;
+   height:80%;
    display: none;
+   flex-direction:column;
+   gap:1em;
    background-color: rgba(0, 0, 0, 0.726);
    z-index: 2;
-   padding: 3.5em 0 1em 0;
+   box-sizing:border-box;
+   padding: 1em 0 ;
 }
 
 .close-modal-btn {
-   position: absolute;
-   right: .5em;
-   top: .5em;
-   margin: 0;
    border: none;
    border-radius: 1em 0;
    background-color: #BBFF77;
    font-size: 1.3em;
    font-weight: bold;
+   box-sizing:border-box;
    padding: .5em;
+}
+
+.close-btn-container {
+   display:flex;
+   justify-content: flex-end;
+   padding-right:1em;
 }
 
 .close-modal-btn:hover {
@@ -384,8 +393,15 @@ optgroup {
 }
 
 .modal-art-wrapper {
-   width: 80%;
-   margin-top: .5em;
+   max-width:100%;
+   max-height:100%;
+   box-sizing:border-box;
+}
+
+.modal-art-wrapper img {
+   object-fit:contain;
+   max-width:100%;
+   max-height:100%;
 }
 
 .enter-left {
@@ -402,7 +418,7 @@ optgroup {
 
 @keyframes translate-left {
    from {
-      transform:translateX(-120%);
+      transform:translateX(-100cqw);
    }
    to {
       transform:translateX(0);
@@ -411,7 +427,7 @@ optgroup {
 
 @keyframes translate-right {
    from {
-      transform:translateX(120%);
+      transform:translateX(100cqw);
    }
    to {
       transform:translateX(0);
@@ -449,12 +465,10 @@ optgroup {
 
 .modal-art-wrapper.comic-modal {
    overflow:hidden;
-   width:auto;
-   height:75%;
 }
 
 .portfolio .slides {
-   width:auto;
+   width:100%;
    display:flex;
    flex-direction:column;
    transition:.5s;
@@ -501,18 +515,28 @@ optgroup {
 }
 
 .modal-content {
-   width: 100%;
-   height:100%;
+   max-width:90%;
+   max-height:70%;
+   margin:auto;
+   padding:0;
+   box-sizing:border-box;
    display: flex;
    position:relative;
    flex-direction: column;
    align-items: center;
+   justify-content:center;
    gap: 1em;
+}
+
+.modal-content.comic-modal {
+   max-width:100%;
+   max-height:80%;
 }
 
 .modal-content .bottom {
    display: flex;
-   width: 80%;
+   box-sizing:border-box;
+   max-width:80%;
    gap: 1em;
 }
 
@@ -521,7 +545,6 @@ optgroup {
    background-color: #FD798C;
    border: none;
    border-radius: 50% .3em;
-   width: 2.5em;
    font-size:1em;
 }
 
@@ -553,7 +576,9 @@ optgroup {
    border-radius: 1em 0;
    margin: auto;
    width: 100%;
-   font-size: .7em;
+   font-size:.7em;
+   box-sizing:border-box;
+   flex-direction:column;
    padding: .3em 0;
 }
 
@@ -563,10 +588,11 @@ optgroup {
 }
 
 #slideshow {
-   width: 100%;
+   box-sizing:border-box;
    border: solid #FEB2B8 .01em;
    overflow: hidden;
    position: relative;
+   height:auto;
    z-index: 0;
    margin-bottom: 1em;
 }
@@ -678,4 +704,62 @@ p {
 .about-artist hr {
    margin: -.8em 0 0 0;
    height: .05em;
+}
+
+@media (min-width:500px) {
+   #slideshow {
+      margin:0 56px 1em;
+   }
+   
+   .about-artist {
+      padding:1em 56px;
+   }
+
+   header .right {
+      font-size:2em;
+   }
+
+   .year-container {
+      grid-template-columns:repeat(4, 1fr);
+   }
+
+   .year-container h2 {
+      grid-column:1/5;
+   }
+
+   .scroll-indicator {
+      max-width:80%;
+   }
+
+}
+
+@media (min-width:1000px) {
+   header {
+      padding:.4em 56px;
+   }
+
+   .inner-container {
+      max-width:800px;
+   }
+
+   #slideshow {
+      margin:0 200px 1em;
+   }
+
+   .about-artist {
+      max-width:600px;
+   }
+
+   .year-container {
+      grid-template-columns:repeat(5, 1fr);
+   }
+
+   .year-container h2 {
+      grid-column:1/6;
+   }
+
+   .scroll-indicator {
+      max-width:20%;
+      left:40%;
+   }
 }
